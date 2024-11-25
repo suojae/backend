@@ -21,11 +21,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22' 
+          node-version: '22'
 
       # 3. Install dependencies
       - name: Install Dependencies
         run: npm install
+        working-directory: ./source
 
       # 4. Run tests
       - name: Run Tests
@@ -44,3 +45,4 @@ jobs:
       # 2. Allow pushing only if tests pass
       - name: Enforce Push Policy
         run: echo "Tests passed. Push allowed."
+        working-directory: ./source
