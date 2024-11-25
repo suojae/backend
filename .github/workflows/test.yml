@@ -31,18 +31,4 @@ jobs:
       # 4. Run tests
       - name: Run Tests
         run: npm test
-
-  enforce:
-    needs: test
-    if: ${{ success() }}
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1. Checkout the repository
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      # 2. Allow pushing only if tests pass
-      - name: Enforce Push Policy
-        run: echo "Tests passed. Push allowed."
-        working-directory: ./source
+        working-directory: ./source 
