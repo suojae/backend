@@ -46,7 +46,7 @@ export class ExternalAuthService implements IExternalAuthService {
    * @param accessToken Kakao에서 발급받은 Access Token
    * @returns 회원탈퇴한 사용자 ID (Promise<number>)
    */
-  revockeKakaoUser(accessToken: string): Promise<number> {
+  revokeKakaoUser(accessToken: string): Promise<number> {
     return this.kakaoAuthService.unlinkUser(accessToken);
   }
 }
