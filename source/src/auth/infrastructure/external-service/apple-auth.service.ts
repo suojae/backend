@@ -20,7 +20,7 @@ export class AppleAuthService {
    * @param authCode 프론트에서 전달받은 Authorization Code
    * @returns Access Token
    */
-  private async getAccessToken(authCode: string): Promise<string> {
+  async getAccessToken(authCode: string): Promise<string> {
     try {
       const payload = new URLSearchParams({
         grant_type: 'authorization_code',
