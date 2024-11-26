@@ -69,7 +69,7 @@ describe('JwtService 단위 테스트', () => {
     mockNestJwtService.verify = jest.fn().mockReturnValue(decodedPayload);
 
     // When
-    const payload = jwtService.cerifyRefreshToken(token);
+    const payload = jwtService.verifyRefreshToken(token);
 
     // Then
     expect(mockNestJwtService.verify).toHaveBeenCalledWith(token);
