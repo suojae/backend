@@ -21,7 +21,7 @@ import { HttpModule } from '@nestjs/axios';
         });
 
         return {
-          store: store as unknown as CacheStore,
+          store: store as CacheStore,
           ttl: 60000, // 캐시 TTL 설정 (밀리초)
         };
       },
