@@ -1,4 +1,4 @@
-import { KakaoAuthService } from '../../../src/auth/infrastructure/external-service/kakao-auth.service';
+import { KakaoAuthService } from '../../../src/auth/infrastructure/external-services/kakao-auth.service';
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosResponse } from 'axios';

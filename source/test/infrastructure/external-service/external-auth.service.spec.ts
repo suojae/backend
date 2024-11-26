@@ -1,6 +1,6 @@
-import { ExternalAuthService } from '../../../src/auth/infrastructure/external-service/external-auth.service';
-import { AppleAuthService } from '../../../src/auth/infrastructure/external-service/apple-auth.service';
-import { KakaoAuthService } from '../../../src/auth/infrastructure/external-service/kakao-auth.service';
+import { ExternalAuthService } from '../../../src/auth/infrastructure/external-services/external-auth.service';
+import { AppleAuthService } from '../../../src/auth/infrastructure/external-services/apple-auth.service';
+import { KakaoAuthService } from '../../../src/auth/infrastructure/external-services/kakao-auth.service';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('External AuthService', () => {
