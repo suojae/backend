@@ -55,6 +55,11 @@ export class CacheAsideService<T> {
     }
   }
 
+  /**
+   * 데이터를 삭제하고 캐시를 제거합니다.
+   * @param key 캐시 키
+   * @param id 삭제할 데이터의 ID
+   */
   async deleteData(key: string, id: number): Promise<void> {
     await this.mysqlService.delete(id);
     await this.redisService.del(key);
