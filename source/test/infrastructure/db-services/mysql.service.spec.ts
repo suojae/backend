@@ -1,4 +1,4 @@
-import { MySQLService } from '../../../src/auth/infrastructure/data-services/mysql.service';
+import { MySQLService } from '../../../src/auth/infrastructure/db-services/mysql.service';
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 

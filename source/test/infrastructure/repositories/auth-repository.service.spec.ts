@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthRepository } from '../../../src/auth/infrastructure/repositories/auth.repository';
-import { ExternalAuthService } from '../../../src/auth/infrastructure/external-services/external-auth.service';
-import { CacheAsideService } from '../../../src/auth/infrastructure/data-services/cache-aside.service';
+import { ExternalAuthService } from '../../../src/auth/infrastructure/api-services/external-auth.service';
+import { CacheAsideService } from '../../../src/auth/infrastructure/db-services/cache-aside.service';
 import { AuthTokenDAO } from '../../../src/auth/infrastructure/dao/auth-token.dao';
-import { RedisService } from '../../../src/auth/infrastructure/data-services/redis.service';
-import { JwtService } from '../../../src/auth/infrastructure/services/jwt.service';
+import { RedisService } from '../../../src/auth/infrastructure/db-services/redis.service';
+import { JwtService } from '../../../src/auth/infrastructure/util-services/jwt.service';
 
 describe('AuthRepository', () => {
   let authRepository: AuthRepository;

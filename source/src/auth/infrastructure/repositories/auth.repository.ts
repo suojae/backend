@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { AuthTokenDAO } from '../dao/auth-token.dao';
-import { ExternalAuthService } from '../external-services/external-auth.service';
-import { CacheAsideService } from '../data-services/cache-aside.service';
-import { JwtService } from '../services/jwt.service';
-import { RedisService } from '../data-services/redis.service';
+import { ExternalAuthService } from '../api-services/external-auth.service';
+import { CacheAsideService } from '../db-services/cache-aside.service';
+import { JwtService } from '../util-services/jwt.service';
+import { RedisService } from '../db-services/redis.service';
 
 @Injectable()
 export class AuthRepository {

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppleAuthService } from '../../../src/auth/infrastructure/external-services/apple-auth.service';
+import { AppleAuthService } from '../../../src/auth/infrastructure/api-services/apple-auth.service';
 import { HttpService } from '@nestjs/axios';
 import { of, throwError } from 'rxjs';
 import { AxiosResponse } from 'axios';

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CacheAsideService } from '../../../src/auth/infrastructure/data-services/cache-aside.service';
-import { RedisService } from '../../../src/auth/infrastructure/data-services/redis.service';
-import { MySQLService } from '../../../src/auth/infrastructure/data-services/mysql.service';
+import { CacheAsideService } from '../../../src/auth/infrastructure/db-services/cache-aside.service';
+import { RedisService } from '../../../src/auth/infrastructure/db-services/redis.service';
+import { MySQLService } from '../../../src/auth/infrastructure/db-services/mysql.service';
 
 describe('CacheAsideService', () => {
   let cacheAsideService: CacheAsideService<any>;

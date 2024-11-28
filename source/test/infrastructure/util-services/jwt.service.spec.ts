@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
-import { JwtService } from '../../../src/auth/infrastructure/services/jwt.service';
+import { JwtService } from '../../../src/auth/infrastructure/util-services/jwt.service';
 
 describe('JwtService 단위 테스트', () => {
   let jwtService: JwtService;

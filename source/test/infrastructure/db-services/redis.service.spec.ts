@@ -1,4 +1,4 @@
-import { RedisService } from '../../../src/auth/infrastructure/data-services/redis.service';
+import { RedisService } from '../../../src/auth/infrastructure/db-services/redis.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Test, TestingModule } from '@nestjs/testing';
