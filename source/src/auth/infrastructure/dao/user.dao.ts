@@ -42,10 +42,10 @@ export class UserDAO {
   social_provider: 'google' | 'kakao' | 'apple';
 
   /**
-   * 사용자가 소셜 서비스를 통해 인증받은 고유 식별자입니다.
+   * 암호화된 사용자 패스워드입니다.
    */
-  @Column({ type: 'varchar', length: 100 })
-  social_id: string;
+  @Column({ type: 'varchar', length: 255 })
+  hashed_password: string;
 
   /**
    * 데이터베이스에 해당 레코드가 생성된 시간을 나타냅니다.
