@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { IExternalAuthService } from '../../domain/external-auth.service.interface';
 import { AppleAuthService } from './apple-auth.service';
 import { KakaoAuthService } from './kakao-auth.service';
 
 @Injectable()
-export class ExternalAuthService implements IExternalAuthService {
+export class ExternalAuthService {
   constructor(
     private readonly appleAuthService: AppleAuthService,
     private readonly kakaoAuthService: KakaoAuthService,

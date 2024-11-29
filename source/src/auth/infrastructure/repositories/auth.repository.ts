@@ -4,9 +4,10 @@ import { ExternalAuthService } from '../api-services/external-auth.service';
 import { CacheAsideService } from '../db-services/cache-aside.service';
 import { JwtService } from '../util-services/jwt.service';
 import { RedisService } from '../db-services/redis.service';
+import { IAuthRepository } from '../../domain/auth.repository.interface';
 
 @Injectable()
-export class AuthRepository {
+export class AuthRepository implements IAuthRepository {
   constructor(
     private readonly externalAuthService: ExternalAuthService,
     private readonly cacheAsideService: CacheAsideService<AuthTokenDAO>,
@@ -50,7 +51,7 @@ export class AuthRepository {
       // Access Token 검증
       return this.jwtService.verifyAccessToken(accessToken); // 사용자 정보 반환
     } catch (error) {
-      throw new Error('Invalid or expired access token');
+      throw new Error(`Invalid or expired access token: ${error}`);
     }
   }
 

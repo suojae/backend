@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { IAuthRepository } from '../domain/auth.repository';
-import { IExternalAuthService } from '../domain/external-auth.service.interface';
+import { Injectable, Inject } from '@nestjs/common';
+import { IUserRepository } from '../domain/user.repository.interface';
+import { IAuthRepository } from '../domain/auth.repository.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(IAuthRepository)
     private readonly authRepository: IAuthRepository,
-    private readonly externalAuthService: IExternalAuthService,
+    @Inject(IUserRepository)
+    private readonly userRepository: IUserRepository,
   ) {}
 }
