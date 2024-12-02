@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CacheAsideService } from '../db-services/cache-aside.service';
 import { UserDAO } from '../dao/user.dao';
+import { MySQLService } from '../db-services/mysql.service';
+import { RedisService } from '../db-services/redis.service';
 import { BcryptService } from '../util-services/bcryptService';
 import { UserEntity } from '../../domain/user.entity';
+import { SocialProvider } from '../../domain/social-provider.type';
 import { IUserRepository } from '../../domain/user.repository.interface';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
-    private readonly cacheAsideService: CacheAsideService<UserDAO>,
+    private readonly mysqlService: MySQLService<UserDAO>,
+    private readonly redisService: RedisService,
     private readonly bcryptService: BcryptService,
   ) {}
 
@@ -18,21 +21,18 @@ export class UserRepository implements IUserRepository {
    * @returns 저장된 사용자 엔티티
    */
   async save(userEntity: UserEntity): Promise<UserEntity> {
-    // 1. 비밀번호 해싱
-    const hashedPassword = await this.bcryptService.hashPassword(
-      userEntity.password,
-    );
+    let hashedPassword = undefined;
+    if (userEntity.password) {
+      hashedPassword = await this.bcryptService.hashPassword(
+        userEntity.password,
+      );
+    }
 
-    // 2. Entity를 DAO로 변환
     const userDAO = userEntity.toDAO(hashedPassword);
+    const savedDAO = await this.mysqlService.save(userDAO);
+    const cacheKey = this.getCacheKey(savedDAO.uuid);
 
-    // 3. DAO 저장
-    const savedDAO = await this.cacheAsideService.saveData(
-      `user:${userDAO.uuid}`,
-      userDAO,
-    );
-
-    // 4. DAO를 다시 Entity로 변환하여 반환
+    await this.redisService.set(cacheKey, savedDAO);
     return UserEntity.fromDAO(savedDAO);
   }
 
@@ -42,45 +42,75 @@ export class UserRepository implements IUserRepository {
    * @returns 사용자 엔티티 또는 null
    */
   async findById(uuid: string): Promise<UserEntity | null> {
-    const dao = await this.cacheAsideService.getData(
-      `user:${uuid}`,
-      uuid as any,
-    );
-    return dao ? UserEntity.fromDAO(dao) : null;
-  }
+    const cacheKey = this.getCacheKey(uuid);
 
-  /**
-   * 사용자 데이터를 업데이트합니다.
-   * @param uuid 업데이트할 사용자 UUID
-   * @param partialUser 업데이트할 필드
-   */
-  async update(uuid: string, partialUser: Partial<UserEntity>): Promise<void> {
-    const currentDAO = await this.cacheAsideService.getData(
-      `user:${uuid}`,
-      uuid as any,
-    );
-    if (!currentDAO) {
-      throw new Error('User not found');
+    const cachedDAO = await this.redisService.get<UserDAO>(cacheKey);
+    if (cachedDAO) {
+      return UserEntity.fromDAO(cachedDAO);
     }
 
-    // Entity로 변환하여 업데이트
-    const updatedEntity = UserEntity.fromDAO(currentDAO);
-    Object.assign(updatedEntity, partialUser);
+    const userDAO = await this.mysqlService.findById(uuid);
+    if (!userDAO) {
+      return null;
+    }
 
-    // 업데이트된 Entity를 DAO로 변환하여 저장
-    const updatedDAO = updatedEntity.toDAO(currentDAO.hashed_password);
-    await this.cacheAsideService.updateData(
-      `user:${uuid}`,
-      uuid as any,
-      updatedDAO,
-    );
+    await this.redisService.set(cacheKey, userDAO);
+    return UserEntity.fromDAO(userDAO);
   }
 
   /**
-   * 사용자 데이터를 삭제합니다.
-   * @param uuid 삭제할 사용자 UUID
+   * 소셜 ID로 사용자 조회
+   * @param socialProvider 소셜 제공자 ('apple' 또는 'kakao')
+   * @param socialId 소셜 제공자에서의 사용자 ID
+   * @returns 사용자 엔티티 또는 null
    */
-  async delete(uuid: string): Promise<void> {
-    await this.cacheAsideService.deleteData(`user:${uuid}`, uuid as any);
+  async findBySocialId(
+    socialProvider: SocialProvider,
+    socialId: string,
+  ): Promise<UserEntity | null> {
+    const userDAO = await this.mysqlService.findOneByFields({
+      social_provider: socialProvider,
+      social_id: socialId,
+    });
+
+    return userDAO ? UserEntity.fromDAO(userDAO) : null;
+  }
+
+  /**
+   * 소셜 ID로 사용자 생성
+   * @param uuid 사용자 UUID
+   * @param socialProvider 소셜 제공자 ('apple' 또는 'kakao')
+   * @param socialId 소셜 제공자에서의 사용자 ID
+   * @returns 생성된 사용자 엔티티
+   */
+  async createWithSocialId(
+    uuid: string,
+    socialProvider: SocialProvider,
+    socialId: string,
+  ): Promise<UserEntity> {
+    const userEntity = new UserEntity();
+    userEntity.id = uuid;
+    userEntity.socialProvider = socialProvider;
+    userEntity.socialId = socialId;
+
+    return this.save(userEntity);
+  }
+
+  /**
+   * 사용자 UUID로 사용자 데이터를 삭제합니다.
+   * @param uuid 사용자 UUID
+   * @returns void
+   */
+  async deleteById(uuid: string): Promise<void> {
+    // 1. Redis 캐시에서 삭제
+    const cacheKey = this.getCacheKey(uuid);
+    await this.redisService.del(cacheKey);
+
+    // 2. MySQL 데이터 삭제
+    await this.mysqlService.delete(uuid);
+  }
+
+  private getCacheKey(uuid: string): string {
+    return `user:${uuid}`;
   }
 }
