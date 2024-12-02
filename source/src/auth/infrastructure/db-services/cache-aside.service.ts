@@ -16,7 +16,7 @@ export class CacheAsideService<T> {
    * @param id 데이터베이스ID
    * @returns 데이터 또는 null
    */
-  async getData(key: string, id: number): Promise<T | null> {
+  async getData(key: string, id: string): Promise<T | null> {
     const cachedData = await this.redisService.get<T>(key);
     if (cachedData) {
       return cachedData; // 캐시 히트
@@ -47,7 +47,7 @@ export class CacheAsideService<T> {
    * @param id 업데이트할 데이터의 ID
    * @param entity entity 업데이트할 데이터
    */
-  async updateData(key: string, id: number, entity: Partial<T>): Promise<void> {
+  async updateData(key: string, id: string, entity: Partial<T>): Promise<void> {
     await this.mysqlService.update(id, entity as QueryDeepPartialEntity<T>);
     const updatedData = await this.mysqlService.findById(id);
     if (updatedData) {
@@ -60,7 +60,7 @@ export class CacheAsideService<T> {
    * @param key 캐시 키
    * @param id 삭제할 데이터의 ID
    */
-  async deleteData(key: string, id: number): Promise<void> {
+  async deleteData(key: string, id: string): Promise<void> {
     await this.mysqlService.delete(id);
     await this.redisService.del(key);
   }
