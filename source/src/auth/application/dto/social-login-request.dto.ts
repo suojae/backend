@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class SocialLoginRequestDto {
   @IsString()
@@ -8,8 +8,4 @@ export class SocialLoginRequestDto {
   @IsString()
   @IsNotEmpty()
   authCode: string; // 소셜 로그인 인증 코드
-
-  @IsOptional()
-  @IsString()
-  idToken?: string; // Apple 로그인 시 사용하는 ID Token
 }
