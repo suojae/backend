@@ -42,6 +42,12 @@ export class UserDAO {
   social_provider: 'google' | 'kakao' | 'apple';
 
   /**
+   * 소셜 서비스에서 제공하는 고유 사용자 식별자입니다.
+   */
+  @Column({ type: 'varchar', length: 255 })
+  social_id: string;
+
+  /**
    * 암호화된 사용자 패스워드입니다.
    */
   @Column({ type: 'varchar', length: 255 })
