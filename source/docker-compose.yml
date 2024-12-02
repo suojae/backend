@@ -1,37 +1,46 @@
 version: "4"
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: rubbit-app
+    build: .
     ports:
-      - "3000:3000"
-    environment:
-      DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_USER: ${DATABASE_USER}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      DATABASE_NAME: ${DATABASE_NAME}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
+      - '3000:3000'
     depends_on:
       - mysql
       - redis
+    env_file:
+      - .env
+    volumes:
+      - ./:/usr/src/app
+    command: npm run start:dev
+    networks:
+      - app_network
 
   mysql:
-    image: mysql:9.0
-    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_DATABASE}
+    volumes:
+      - mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - '3306:3306'
+    networks:
+      - app_network
 
   redis:
     image: redis:8.0
-    container_name: redis
+    restart: always
     ports:
-      - "6379:6379"
+      - '6379:6379'
+    networks:
+      - app_network
 
+volumes:
+  mysql_data:
+  redis_data:
 
+networks:
+  app_network:
