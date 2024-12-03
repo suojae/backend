@@ -1,6 +1,6 @@
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
@@ -104,7 +104,7 @@ export class KakaoAuthService {
           {}, // 요청 바디는 비어있음
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`, //인증헤더 추가
+              Authorization: `Bearer ${accessToken}`, // 인증 헤더 추가
             },
           },
         ),

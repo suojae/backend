@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RedisService } from './redis.service';
-import { MySQLService } from './mysql.service';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { MySQLService } from './mysql.service';
 
 @Injectable()
 export class CacheAsideService<T> {

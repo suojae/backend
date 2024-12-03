@@ -31,7 +31,6 @@ import { redisConfig } from '../config/redis.config';
       },
     }),
 
-    // Importing TypeORM entities
     TypeOrmModule.forFeature([UserDAO, AuthTokenDAO]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -42,7 +41,6 @@ import { redisConfig } from '../config/redis.config';
   controllers: [AuthController],
   providers: [
     AuthService,
-    // Repositories
     {
       provide: 'IAuthRepository',
       useClass: AuthRepository,
@@ -51,14 +49,11 @@ import { redisConfig } from '../config/redis.config';
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
-    // External Authentication Services
     ExternalAuthService,
     AppleAuthService,
     KakaoAuthService,
-    // Utility Services
     JwtService,
     BcryptService,
-    // Database Services
     {
       provide: CacheAsideService,
       useFactory: (

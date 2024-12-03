@@ -12,31 +12,30 @@ import { WithdrawRequestDto } from './dto/withdraw-request.dto';
 import { WithdrawResponseDto } from './dto/withdraw-response.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
-@ApiTags('auth') // Swagger에서 'auth' 태그로 묶을 수 있습니다.
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
   @ApiOperation({ summary: '회원가입' })
-  @ApiBody({ type: SignUpRequestDto }) // 요청 DTO 문서화
+  @ApiBody({ type: SignUpRequestDto })
   @ApiResponse({
     status: 200,
     description: '회원가입 성공',
-    type: SignUpResponseDto, // 응답 DTO 문서화
+    type: SignUpResponseDto,
   })
   async signup(@Body() dto: SignUpRequestDto): Promise<SignUpResponseDto> {
-    console.log(dto); // 디버깅 로그 추가
     return await this.authService.signup(dto);
   }
 
   @Post('login')
   @ApiOperation({ summary: '소셜 로그인' })
-  @ApiBody({ type: SocialLoginRequestDto }) // 요청 DTO 문서화
+  @ApiBody({ type: SocialLoginRequestDto })
   @ApiResponse({
     status: 200,
     description: '소셜 로그인 성공',
-    type: SocialLoginResponseDto, // 응답 DTO 문서화
+    type: SocialLoginResponseDto,
   })
   async login(
     @Body() dto: SocialLoginRequestDto,
@@ -46,11 +45,11 @@ export class AuthController {
 
   @Post('refresh-tokens')
   @ApiOperation({ summary: '토큰 재발급' })
-  @ApiBody({ type: TokenRefreshRequestDto }) // 요청 DTO 문서화
+  @ApiBody({ type: TokenRefreshRequestDto })
   @ApiResponse({
     status: 200,
     description: '토큰 재발급 성공',
-    type: TokenRefreshResponseDto, // 응답 DTO 문서화
+    type: TokenRefreshResponseDto,
   })
   async refreshTokens(
     @Body() dto: TokenRefreshRequestDto,
@@ -60,11 +59,11 @@ export class AuthController {
 
   @Post('logout')
   @ApiOperation({ summary: '로그아웃' })
-  @ApiBody({ type: LogoutRequestDto }) // 요청 DTO 문서화
+  @ApiBody({ type: LogoutRequestDto })
   @ApiResponse({
     status: 200,
     description: '로그아웃 성공',
-    type: LogoutResponseDto, // 응답 DTO 문서화
+    type: LogoutResponseDto,
   })
   async logout(@Body() dto: LogoutRequestDto): Promise<LogoutResponseDto> {
     return await this.authService.logout(dto);
@@ -72,11 +71,11 @@ export class AuthController {
 
   @Post('withdraw')
   @ApiOperation({ summary: '회원탈퇴' })
-  @ApiBody({ type: WithdrawRequestDto }) // 요청 DTO 문서화
+  @ApiBody({ type: WithdrawRequestDto })
   @ApiResponse({
     status: 200,
     description: '회원탈퇴 성공',
-    type: WithdrawResponseDto, // 응답 DTO 문서화
+    type: WithdrawResponseDto,
   })
   async withdraw(
     @Body() dto: WithdrawRequestDto,

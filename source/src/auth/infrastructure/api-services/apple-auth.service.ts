@@ -204,7 +204,7 @@ export class AppleAuthService {
       }
 
       throw new InternalServerErrorException(
-        'Apple 유저 회원탈퇴에 실패했습니다',
+        'Apple 유저 회원탈퇴에 실패했습니다.',
       );
     } catch (error) {
       throw new InternalServerErrorException(
