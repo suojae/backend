@@ -8,6 +8,9 @@ import {
 
 @Entity('User')
 export class UserDAO {
+  // @OneToMany(() => AuthTokenDAO, (authToken) => authToken.user) // 관계 정의
+  // authTokens: AuthTokenDAO[];
+
   /**
    * 사용자 고유 식별자입니다. UUID 형식으로 자동 생성됩니다.
    */
@@ -15,16 +18,20 @@ export class UserDAO {
   uuid: string;
 
   /**
-   * 사용자가 설정한 닉네임입니다. 최대 10자까지 허용됩니다.
+   * 사용자가 설정한 닉네임입니다. 최대 20자까지 허용됩니다.
    */
-  @Column({ type: 'varchar', length: 10 })
+  @Column({ type: 'varchar', length: 20, default: 'Anonymous' })
   nickname: string;
 
   /**
    * 사용자가 선택한 캐릭터를 나타냅니다.
    * 가능한 값: 'rabbit', 'dog', 'hamster', 'cat'.
    */
-  @Column({ type: 'enum', enum: ['rabbit', 'dog', 'hamster', 'cat'] })
+  @Column({
+    type: 'enum',
+    enum: ['rabbit', 'dog', 'hamster', 'cat'],
+    default: 'Rabbit',
+  })
   character_id: 'rabbit' | 'dog' | 'hamster' | 'cat';
 
   /**
@@ -44,13 +51,13 @@ export class UserDAO {
   /**
    * 소셜 서비스에서 제공하는 고유 사용자 식별자입니다.
    */
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, unique: true })
   social_id: string;
 
   /**
    * 암호화된 사용자 패스워드입니다.
    */
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   hashed_password: string;
 
   /**
