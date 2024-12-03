@@ -4,7 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { AuthTokenDAO } from './infrastructure/dao/auth-token.dao';
 import { UserDAO } from './infrastructure/dao/user.dao';
 import { AuthController } from './presentation/auth.controller';
-import { AuthService } from './application/auth.service';
+import { AuthService } from './presentation/auth.service';
 import { AuthRepository } from './infrastructure/repositories/auth.repository';
 import { UserRepository } from './infrastructure/repositories/user.repository';
 import { ExternalAuthService } from './infrastructure/api-services/external-auth.service';

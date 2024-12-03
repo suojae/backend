@@ -1,15 +1,15 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { AuthService } from '../application/auth.service';
-import { SignUpResponseDto } from '../application/dto/sign-up-response.dto';
-import { SignUpRequestDto } from '../application/dto/sign-up-request.dto';
-import { SocialLoginResponseDto } from '../application/dto/social-login-response.dto';
-import { SocialLoginRequestDto } from '../application/dto/social-login-request.dto';
-import { TokenRefreshRequestDto } from '../application/dto/token-refresh-request.dto';
-import { TokenRefreshResponseDto } from '../application/dto/token-refresh-response.dto';
-import { LogoutResponseDto } from '../application/dto/logout-response.dto';
-import { LogoutRequestDto } from '../application/dto/logout-request.dto';
-import { WithdrawRequestDto } from '../application/dto/withdraw-request.dto';
-import { WithdrawResponseDto } from '../application/dto/withdraw-response.dto';
+import { AuthService } from './auth.service';
+import { SignUpResponseDto } from './dto/sign-up-response.dto';
+import { SignUpRequestDto } from './dto/sign-up-request.dto';
+import { SocialLoginResponseDto } from './dto/social-login-response.dto';
+import { SocialLoginRequestDto } from './dto/social-login-request.dto';
+import { TokenRefreshRequestDto } from './dto/token-refresh-request.dto';
+import { TokenRefreshResponseDto } from './dto/token-refresh-response.dto';
+import { LogoutResponseDto } from './dto/logout-response.dto';
+import { LogoutRequestDto } from './dto/logout-request.dto';
+import { WithdrawRequestDto } from './dto/withdraw-request.dto';
+import { WithdrawResponseDto } from './dto/withdraw-response.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('auth') // Swagger에서 'auth' 태그로 묶을 수 있습니다.
