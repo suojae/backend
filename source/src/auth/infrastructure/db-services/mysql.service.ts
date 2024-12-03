@@ -12,7 +12,7 @@ export class MySQLService<T> {
    * @returns 데이터 또는 null
    */
   async findById(id: string): Promise<T | null> {
-    return this.repository.findOne(id as any);
+    return this.repository.findOneBy({ uuid: id } as any);
   }
 
   /**
