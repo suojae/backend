@@ -8,7 +8,6 @@ import { HttpService } from '@nestjs/axios';
 import * as process from 'node:process';
 import { firstValueFrom } from 'rxjs';
 import { KakaoUserInfoResponseDto } from '../dto/kakao-auth/kakao-user-info-response.dto';
-import { SocialAuthCodeDto } from '../dto/auth-common/social-auth-code.dto';
 import { SocialTokenResponseDto } from '../dto/auth-common/social-token-response.dto';
 import { SocialUserInfoDto } from '../dto/auth-common/social-user-info.dto';
 import { SocialRevokeResponseDto } from '../dto/auth-common/social-revoke-response.dto';
@@ -25,13 +24,12 @@ export class KakaoAuthService {
 
   /**
    * Authorization Code를 사용해 Kakao 서버로부터 Access Token을 가져옵니다.
-   * @param authCodeDto Authorization Code를 포함한 DTO
+   * @param authCode Authorization Code를 포함한 DTO
    * @returns Access Token을 포함한 DTO
    */
   async getAccessToken(
-    authCodeDto: SocialAuthCodeDto,
+    authCode: string,
   ): Promise<SocialTokenResponseDto> {
-    const { authCode } = authCodeDto;
     try {
       const payload = new URLSearchParams({
         grant_type: 'authorization_code',

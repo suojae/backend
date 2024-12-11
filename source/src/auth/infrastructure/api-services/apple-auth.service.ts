@@ -13,7 +13,6 @@ import { AxiosResponse } from 'axios';
 import * as jwkToPem from 'jwk-to-pem';
 import { AppleUserInfoResponseDto } from '../dto/apple-auth/apple-user-info-response.dto';
 import { SocialUserInfoDto } from '../dto/auth-common/social-user-info.dto';
-import { SocialAuthCodeDto } from '../dto/auth-common/social-auth-code.dto';
 import { SocialTokenResponseDto } from '../dto/auth-common/social-token-response.dto';
 import { SocialRevokeResponseDto } from '../dto/auth-common/social-revoke-response.dto';
 
@@ -30,13 +29,12 @@ export class AppleAuthService {
 
   /**
    * Authorization Code를 사용해 Apple 서버로부터 Access Token 및 ID Token을 가져옵니다.
-   * @param authCodeDto Authorization Code를 포함한 DTO
+   * @param authCode Authorization Code를 포함한 DTO
    * @returns Access Token 및 ID Token을 포함한 DTO
    */
   async getTokens(
-    authCodeDto: SocialAuthCodeDto,
+    authCode: string,
   ): Promise<SocialTokenResponseDto> {
-    const { authCode } = authCodeDto;
     try {
       const clientSecret = this.generateClientSecret();
 
